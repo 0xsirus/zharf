@@ -4162,7 +4162,7 @@ u64 tcount=0;
 		m_end =(size_t)-1;
 		has_corrupted_shm = 0;
 		//max_depth_sav = max_depth;
-		total_covered_sav = total_covered;
+		//total_covered_sav = total_covered;
 		candidate_useful = 0;
 		tm_perfcheck_prev = tm_perfcheck;
 
