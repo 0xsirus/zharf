@@ -36,10 +36,10 @@ void zrep(char *fmt, ...){
 	strcpy(s_format,CGREEN "[-] Lib: "CNORM);
 	strcat(s_format,fmt);
 	strcat(s_format,"\n");
-    va_list argp;
-    va_start(argp,s_format);
-    vprintf(s_format,argp);
-    va_end(argp);
+	va_list argp;
+	va_start(argp,s_format);
+	vprintf(s_format,argp);
+	va_end(argp);
 
 }
 
@@ -49,10 +49,10 @@ void zexit(char *fmt, ...){
 	strcpy(err_format,CRED "[!]" CNORM " Lib: ");
 	strcat(err_format,fmt);
 	strcat(err_format,"\n");
-    va_list argp;
-    va_start(argp,err_format);
-    vprintf(err_format,argp);
-    va_end(argp);
+	va_list argp;
+	va_start(argp,err_format);
+	vprintf(err_format,argp);
+	va_end(argp);
 	exit(-1);
 }
 void save_memory(char *msg){
@@ -95,15 +95,15 @@ void force_write_exit(u8 flush,char *fmt, ...){
 	sprintf(err_format,CRED "[!]" CNORM " Lib: [Target %d] ",getpid());
 	strcat(err_format,fmt);
 	strcat(err_format,"\n");
-    va_list argp;
-    va_start(argp,err_format);
-    vsprintf(out,err_format,argp);
-    va_end(argp);
+	va_list argp;
+	va_start(argp,err_format);
+	vsprintf(out,err_format,argp);
+	va_end(argp);
 
-    save_memory(out);
-    fflush(stdout);
+	save_memory(out);
+	fflush(stdout);
 
-    write(1,out,strlen(out));
+	write(1,out,strlen(out));
 
 	exit(-1);
 	printf("LIB: not exited\n");

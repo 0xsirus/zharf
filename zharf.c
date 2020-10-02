@@ -357,15 +357,15 @@ void terminate_units(){
 		}else{
 			printf("Released memory\n");
 		}
-    }
-    /*
-    	else we're exiting at initialization
-    	phase and memory has not been allocated.
-    */
+	}
+	/*
+		else we're exiting at initialization
+		phase and memory has not been allocated.
+	*/
 
-    /*
-    	All file cleanups here
-    */
+	/*
+		All file cleanups here
+	*/
 	//unlink(CURRENT_INPUT);
 	printf(SC);
 }
@@ -374,13 +374,13 @@ char *convert_time(char *ts){
 	long h,m,s;
 
 	time(&cur_time);
-    cur_time-=start_time;
+	cur_time-=start_time;
 
-    h=cur_time/3600;
-    cur_time -= 3600*h;
+	h=cur_time/3600;
+	cur_time -= 3600*h;
 
-    m=cur_time/60;
-    s=cur_time-60*m;
+	m=cur_time/60;
+	s=cur_time-60*m;
 
 	sprintf(ts,"%02ld:%02ld:%02ld",h,m,s);
 
@@ -448,14 +448,14 @@ void zexit(char *fmt, ...){
 	strcpy(err_format,CRED "[!]" CNORM " Fuzzer: ");
 	strcat(err_format,fmt);
 	strcat(err_format,"\n");
-    va_list argp;
-    va_start(argp,err_format);
-    vprintf(err_format,argp);
-    va_end(argp);
-    terminate_units();
-    printf(DStop);
+	va_list argp;
+	va_start(argp,err_format);
+	vprintf(err_format,argp);
+	va_end(argp);
+	terminate_units();
+	printf(DStop);
 
-    if (!zharf_init_state)
+	if (!zharf_init_state)
 		rep_use_time();
 
 	exit(-1);
@@ -476,30 +476,30 @@ void rep(u8 warn, char *fmt, ...){
 
 	}
 	strcat(msg_format,fmt);
-    va_list argp;
+	va_list argp;
 
-    if (should_print)
-    	strcat(msg_format,"\n");
+	if (should_print)
+		strcat(msg_format,"\n");
 
-    va_start(argp,msg_format);
+	va_start(argp,msg_format);
 
 
-    if (!should_print){
+	if (!should_print){
 		if (!warn)
     		vsprintf(stat_line,msg_format,argp);
-    }
-    else{
-    	vprintf(msg_format,argp);
-    }
-    if (warn){
-    	/*
-    		In gui mode this is the only place that we
-    		want to see fuzzer warnings.
-    		Reserve stat line for rep.
-    	*/
-    	vsprintf(current_stat,msg_format,argp);
-    }
-    va_end(argp);
+	}
+	else{
+		vprintf(msg_format,argp);
+	}
+	if (warn){
+	    	/*
+	    		In gui mode this is the only place that we
+	    		want to see fuzzer warnings.
+	    		Reserve stat line for rep.
+	    	*/
+		vsprintf(current_stat,msg_format,argp);
+	}
+	va_end(argp);
 
 }
 
@@ -531,7 +531,7 @@ char *exec_speed(char *cs){
 	distance_s = (cur_timeus-last_etime_inq)/1000000.0;
 
 
-    if (distance_s > 0.0){
+	if (distance_s > 0.0){
 		espeed = (u64)((total_exec-last_exec_inq)/distance_s);
 		sprintf(cs,"%lu/sec",espeed);
 		brefr_freq = espeed/10;
@@ -545,15 +545,15 @@ char *exec_speed(char *cs){
 				state_slow_warn=0;
 			}
 		}
-    }else{
+	}else{
 
-    	sprintf(cs,">%lu/sec",total_exec);
-    }
+		sprintf(cs,">%lu/sec",total_exec);
+	}
 
-    last_exec_inq = total_exec;
-    last_etime_inq = cur_timeus;
+	last_exec_inq = total_exec;
+	last_etime_inq = cur_timeus;
 
-    return cs;
+	return cs;
 
 }
 char *get_sig_name(int signum){
@@ -575,19 +575,19 @@ char * psect(char *buf,int rlen,char *fmt, ...){
 	buf[0]=0;
 	sbuf[0] = 0;
 	va_list argp;
-    va_start(argp,fmt);
-    vsprintf(buf,fmt,argp);
-    va_end(argp);
+	va_start(argp,fmt);
+	vsprintf(buf,fmt,argp);
+	va_end(argp);
 
-    len = strlen(buf);
-    if (len<rlen){
-    	for (i=0;i<(rlen-len);i++)
-    		strcat(sbuf," ");
-    	strcat(buf,sbuf);
-    }else if(len>rlen){
-    	buf[len] = 0; //trim
-    }
-    return buf;
+	len = strlen(buf);
+	if (len<rlen){
+		for (i=0;i<(rlen-len);i++)
+			strcat(sbuf," ");
+		strcat(buf,sbuf);
+	}else if(len>rlen){
+		buf[len] = 0; //trim
+	}
+	return buf;
 
 }
 
@@ -3859,10 +3859,10 @@ void live_rep(){
 	}
 
 	if ((fprintf(frep,"%lu\n%lu\n%lu\n%lu\n%lu\n",total_covered
-												,total_target_hits
-												,indp_counter
-												,nested_counter
-												,last_trace_nodes))
+							,total_target_hits
+							,indp_counter
+							,nested_counter
+							,last_trace_nodes))
 		<0)
 		zexit("write(): live report");
 
@@ -3892,7 +3892,7 @@ void add_stat_entry(){
 	time_t cur_time;
 
 	time(&cur_time);
-    cur_time-=start_time;
+	cur_time-=start_time;
 
 	f=fopen(STAT_ENTRIES_FILE,"a");
 	if (!f){

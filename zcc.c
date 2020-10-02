@@ -196,10 +196,10 @@ void zexit(char *fmt, ...){
 	strcpy(err_format,CRED "[!]" CNORM " Bridge: ");
 	strcat(err_format,fmt);
 	strcat(err_format,"\n");
-    va_list argp;
-    va_start(argp,err_format);
-    vprintf(err_format,argp);
-    va_end(argp);
+	va_list argp;
+	va_start(argp,err_format);
+	vprintf(err_format,argp);
+	va_end(argp);
 
 	exit(-1);
 }
@@ -210,10 +210,10 @@ void zrep(char *fmt, ...){
 	strcpy(msg_format,CGREEN "[-]" CNORM " Bridge: ");
 	strcat(msg_format,fmt);
 	strcat(msg_format,"\n");
-    va_list argp;
-    va_start(argp,msg_format);
-    vprintf(msg_format,argp);
-    va_end(argp);
+	va_list argp;
+	va_start(argp,msg_format);
+	vprintf(msg_format,argp);
+	va_end(argp);
 }
 ID_SIZE next_id(){
 	ID_SIZE new_id = 0xFFFFFFFFFFFFFF;
@@ -576,7 +576,7 @@ int main(int argc, char** argv) {
 	}
 
 	clock_gettime(CLOCK_REALTIME,&stime);
-    srand(stime.tv_nsec);
+	srand(stime.tv_nsec);
 
 	if (bridge_log)
   		rep_input_args(argv,argc);
