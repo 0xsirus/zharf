@@ -10,7 +10,7 @@ u32 hashmap( const void * key, int len, u32 seed)
 	const u32 * blocks = (const u32 *)(data + nblocks*4);
 	const uint8_t * tail;
 	u32 k1;
-	
+
 	for(int i = -nblocks; i; i++)
 	{
 		u32 k1 = getblock32(blocks,i);
@@ -18,9 +18,9 @@ u32 hashmap( const void * key, int len, u32 seed)
 		k1 *= c1;
 		k1 = ROTL32(k1,15);
 		k1 *= c2;
-    
+
 		h1 ^= k1;
-		h1 = ROTL32(h1,13); 
+		h1 = ROTL32(h1,13);
 		h1 = h1*5+0xe6546b64;
 	}
 
@@ -41,4 +41,4 @@ u32 hashmap( const void * key, int len, u32 seed)
 	h1 = fmix32(h1);
 
 	return h1;
-} 
+}

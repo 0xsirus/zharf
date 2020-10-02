@@ -1,11 +1,11 @@
 /*
 	Headers and generic definitions
 	--
-	
+
 	By Sirus Shahini
 	sirus.shahini@gmail.com
 	~cyn
-	
+
 */
 
 #ifndef   _HEADER_H
@@ -57,17 +57,17 @@
 
 /*
 	Shared memory size has an important affect
-	on fuzzing speed. Growing shared memory will slow 
+	on fuzzing speed. Growing shared memory will slow
 	down fuzzing. 1M should be enough for most cases
 	but if the program isn't big 512K should suffice.
 */
-#define SHM_SIZE			(1<<19) 
+#define SHM_SIZE			(1<<19)
 #define ID_SIZE				u64
 #define ID_LEN				((u8)sizeof(ID_SIZE))
 #define NODES_MAX			(1<<18) //256k
 #define BLOCK_INFO_SIZE		u8
-#define BLOCK_TYPE			1 
-#define BLOCK_MARKED		2 
+#define BLOCK_TYPE			1
+#define BLOCK_MARKED		2
 
 #define LOCK_DELTA			8
 #define PROT_VARS_DELTA		24
@@ -76,16 +76,16 @@ struct node{
 	ID_SIZE id;
 	BLOCK_INFO_SIZE info;
 	struct node *parent;
-	struct child_ptr *children; 
+	struct child_ptr *children;
 	u32 hits;
 	u8 current_child_idx;
 };
 struct tree{
-	u64 count; 
+	u64 count;
 	struct node *root;
 	int depth;
-	u64 total_hits; 
-	u64 total_children ; 
+	u64 total_hits;
+	u64 total_children ;
 } ;
 
 struct block_info{
@@ -110,7 +110,7 @@ struct child_ptr{
 #define RS16(max)	((s16)		(RNDBASE*(max)))
 #define RS8(max)	((s8)		(RNDBASE*(max)))
 
-#define CNORM				"\033[0m" 
+#define CNORM				"\033[0m"
 #define CRED				"\x1b[0;31m"
 #define CGREEN				"\x1b[1;32m"
 #define CORANGE				"\x1b[0;33m"
@@ -142,21 +142,21 @@ struct child_ptr{
 #define _64HO		_32HO _32HO
 
 #define VR		"x"
-#define LCD		"l"  
-#define RCD		"k"	 
-#define LCU		"m"  
-#define RCU		"j"  
-#define DP		"n"  
-#define BVR		"t"	
-#define BVL		"u" 
-#define BHU		"v" 
-#define BHD		"w" 
+#define LCD		"l"
+#define RCD		"k"
+#define LCU		"m"
+#define RCU		"j"
+#define DP		"n"
+#define BVR		"t"
+#define BVL		"u"
+#define BHU		"v"
+#define BHD		"w"
 
-#define DH		"\x1b[H" 
-#define DC		DH "\x1b[2J" 
-#define EOL		"\x1b[OK" 
-#define HC		"\x1b[?25l" 
-#define SC		"\x1b[?25h" 
+#define DH		"\x1b[H"
+#define DC		DH "\x1b[2J"
+#define EOL		"\x1b[OK"
+#define HC		"\x1b[?25l"
+#define SC		"\x1b[?25h"
 
 #define _14SP	"              "
 #define _15SP	"               "
@@ -186,8 +186,8 @@ struct child_ptr{
 		1000,		\
 		1024,		\
 		4096,		\
-		32767		
-		
+		32767
+
 #define _32_ints			\
 		-2147483648LL,			\
 		-100663046,			\

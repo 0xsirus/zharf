@@ -1,7 +1,7 @@
 /*
 	By Sirus Shahini
 	~cyn
-	
+
 	This is a slightly modified version of Murmurhash3 originally
 	written by Austin Appleby.
 */
