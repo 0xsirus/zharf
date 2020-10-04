@@ -5337,6 +5337,8 @@ int main(int argc,char **argv){
 	int opt;
 	char *tmp_s;
 	char tmp_path[1024];
+	char gbuf[255];
+	FILE *fgov;
 #ifdef LIVE_STAT
 	FILE *frep;
 	char _sname[1024];
@@ -5524,8 +5526,8 @@ int main(int argc,char **argv){
 	signal(SIGPIPE,pipe_handler);
 
 	sig_act.sa_flags=SA_SIGINFO;
-    sig_act.sa_sigaction = &sigf_handler;
-    sigaction(SIGSEGV, (const struct sigaction *)&sig_act,NULL);
+	sig_act.sa_sigaction = &sigf_handler;
+	sigaction(SIGSEGV, (const struct sigaction *)&sig_act,NULL);
 
 
 
@@ -5614,6 +5616,13 @@ int main(int argc,char **argv){
 	else
 		strcpy(current_stat,CGREEN"NORMAL"CNORM);
 
+	fgov=fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","r");
+	if (!fgov)
+		zexit("fopen(): CPU governer core 0");
+	fgets(gbuf,12,fgov);
+	if (strcmp(gbuf,"performance"))
+		zwarn("Fuzzer works better in 'performance' mode of CPUFreq governor.");
+	fclose(fgov);
 
 /************ PM modes initializations here ****************/
 
