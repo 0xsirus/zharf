@@ -18,7 +18,7 @@ You will compile your program with the compiler bridge `zcc` that has been provi
 
 Example:
 ```
-$ CC=<path_to_zharf> ./configure
+$ CC=zcc ./configure
 $ make
 ```
 `zcc` instruments the target program to be fuzzed by Zharf.
