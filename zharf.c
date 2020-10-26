@@ -5622,6 +5622,7 @@ int main(int argc,char **argv){
 	fgets(gbuf,12,fgov);
 	if (strcmp(gbuf,"performance"))
 		zwarn("Fuzzer works better in 'performance' mode of CPUFreq governor.");
+	clear_warn();
 	fclose(fgov);
 
 /************ PM modes initializations here ****************/
