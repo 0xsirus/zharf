@@ -1,5 +1,5 @@
 all:
-	gcc -Wall -Wno-varargs -fPIC -g -shared -O3 -o libzh.so libzh.c
+	gcc -Wall -Wno-varargs -fPIC -shared -O3 -o libzh.so libzh.c
 	gcc -Wno-varargs -Wall -ozcc zcc.c
 	gcc -Wall -Wno-varargs -ozharf -rdynamic hash.c zharf.c
 lib:
