@@ -1849,7 +1849,7 @@ void int_handler(int signal){
 	znormal_exit();
 }
 void pipe_handler(int signal){
-	zexit("Received SIGPIPE");
+	zexit("Received SIGPIPE, forkserver down?");
 }
 
 void rep_adrs(){
