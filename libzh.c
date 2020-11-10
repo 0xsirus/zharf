@@ -494,7 +494,7 @@ u8 run_fserver(){
 		zexit("FATAL: Can't read shared memory adr\n");
 	}
 	shm = shmat(shm_id,shm_adr,0);
-	if (!shm){
+	if (shm==(void*)-1){
 		zexit("FATAL: Can't attach to shared memory\n");
 	}
 	printf("Requested %016lx Got %d %016lx\n",(u64)shm_adr,shm_id,(u64)shm);

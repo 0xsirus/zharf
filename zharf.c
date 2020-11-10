@@ -623,11 +623,15 @@ char * show_data(char *buf,void *orig_data,size_t len,size_t start,size_t end){
 	}
 
 
-	if (start > len_limit) start = start % len_limit;
-	if (end > len_limit) end = end % len_limit;
+	if (start >= len_limit) start = start % len_limit;
+	if (end >= len_limit) end = end % len_limit;
 
 
 	if (len<=(len_limit-16)) pad=1;
+
+	if (start >= len){
+		zexit("Board: args overflow page offset %d %d %d",start,end,len);
+	}
 
 #define APPEND 	psect(tmp,78+extra,line);\
 				strcpy(line,DStart VR DStop);\
@@ -1240,6 +1244,8 @@ u8 queue_add_traced(struct input_val *iv, int *add_indx){
 			cur=&input_queue[queue_ind];
 			*cur=*iv;
 			break;
+		default:
+			zexit("Undefined mode");
 
 	}
 
@@ -1411,7 +1417,8 @@ void run_starter(){
 
 	}
 
-
+	close(cmd_send[0]);
+	close(response_recv[1]);
 	n=write(cmd_send[1],&shm_id,4);
 	if (n<1){
 		zexit("Can't write to starter");
@@ -5335,7 +5342,7 @@ void dir_check_create(char *p){
 }
 int main(int argc,char **argv){
 	int opt;
-	char *tmp_s;
+	char *tmp_s=0;
 	char tmp_path[1024];
 	char gbuf[255];
 	FILE *fgov;
