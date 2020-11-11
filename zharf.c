@@ -4143,7 +4143,7 @@ u64 tcount=0;
 			if (m_start!=-1) ni_counter--;
 			if (ni_total_tries > 2*NI_MAX_ROUNDS){
 				mut_op = 255;
-				zwarn("Input %s stayed for too many tries in NI stage");
+				zwarn("Input stayed for too many tries in NI stage");
 			}else{
 				if (ni_counter==0){
 					mut_op = 255;
