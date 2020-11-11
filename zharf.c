@@ -2221,7 +2221,7 @@ void *extract_map(u64 *size){
 	}
 	tmp_map= mmap(0,total_extract_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 
-	if (!tmp_map){
+	if (tmp_map==MAP_FAILED){
 		zexit("extract_map: mmap");
 	}
 
@@ -2368,12 +2368,12 @@ void debug_memory(void *adr){
 
 	shm_adr = mmap(adr,SHM_SIZE, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 	shm_end = shm_adr + SHM_SIZE;
-	if (!shm_adr){
+	if (shm_adr==MAP_FAILED){
 		zexit("Can't allocate memory");
 		return;
 	}
 	if (shm_adr != adr){
-		zexit("Couln't load memory where it should be");
+		zexit("Couldn't load memory where it should be");
 	}
 	shared_trace_tree = shm_adr + LOCK_DELTA + PROT_VARS_DELTA;
 
@@ -3248,7 +3248,7 @@ choose_offsets:
 	}
 
 	mdata = mmap(0,(st.st_size - m_break_pos), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
-	if (!mdata){
+	if (mdata==MAP_FAILED){
 		zexit("mix_inputs: madata");
 	}
 
@@ -4051,7 +4051,7 @@ void zharf_generate(){
 	saved_input = mmap(0,alloc_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 	mutated_input = mmap(0,alloc_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 
-	if (!saved_input || !mutated_input){
+	if (saved_input==MAP_FAILED || mutated_input==MAP_FAILED){
 		zexit("generator failed due to memory inaccessiblity");
 	}
 	f_in = fopen(input_queue[queue_use_ind].i_path,"r");
@@ -4883,7 +4883,7 @@ void adjust_timeout(){
 		data = mmap(0,actual_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 
 
-		if (!data ){
+		if (data==MAP_FAILED ){
 			zexit("adjust_timeout failed due to memory inaccessiblity");
 		}
 		f = fopen(input_queue[input_ind].i_path,"r");
@@ -5208,10 +5208,11 @@ void pin_to_cpu(){
 		}
 
 		proc_file = mmap(0,alloc_size,PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
-		memset(proc_file,0,alloc_size);
-		if (!proc_file){
+		if (proc_file==MAP_FAILED){
 			zexit("pin_to_cpu(): mmap");
 		}
+		memset(proc_file,0,alloc_size);
+
 		read_to_mem(proc_file,p_path);
 
 		if (!strstr(proc_file,"VmSize")) continue;
@@ -5645,9 +5646,15 @@ int main(int argc,char **argv){
 				until fuzzer termination. No need to unmap
 			*/
 			LPSC_queue=mmap(0,LPSC_MAX_NODES,PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
+			if (LPSC_queue==MAP_FAILED){
+				zexit("mmap()");
+			}
 			memset(LPSC_queue,0,LPSC_MAX_NODES);
 
 			LPSC_queue_wait=mmap(0,LPSC_MAX_NODES,PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
+			if (LPSC_queue_wait==MAP_FAILED){
+				zexit("mmap()");
+			}
 			memset(LPSC_queue_wait,0,LPSC_MAX_NODES);
 			break;
 		case 2:
