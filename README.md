@@ -44,5 +44,5 @@ To see all options run:
 ```
 $ zharf -h
 ```
-<img src="https://www.cs.utah.edu/~sirus/zharf_1.1.png" />
+<img src="https://www.cs.utah.edu/~sirus/zharf-1.1.png" />
 
