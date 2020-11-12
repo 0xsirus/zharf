@@ -730,7 +730,7 @@ void refresh_board(void *data,size_t size,size_t start,size_t end){
 
 	printf(DH);
 	printf("\n");
-	SPACE(31) printf(CLGREEN"ZHARF <VERSION 1.0>\n");
+	SPACE(31) printf(CLGREEN"ZHARF <VERSION 1.1>\n");
 	SPACE(32) printf("By Sirus Shahini\n"CNORM);
 
 
@@ -3671,24 +3671,46 @@ void mut_dict_kw_ins(void *data,size_t size,u8 op,size_t *start,size_t *end,size
 
 /*********** End mutation functions ************/
 
-
 void write_g_input(u8 *data,size_t size){
-	FILE *out_f;
-	size_t n;
 
-
-	out_f = fopen("tmp_input","w");
-	if (!out_f){
-		zexit("open() : generated input");
-	}
-	if ((n=fwrite(data,1,size,out_f)) <size){
-		zexit("write() : generated input");
-	}
-	fclose(out_f);
 	if (file_feed){
-		prepare_file_feed("tmp_input");
+		FILE *out_f;
+		size_t n;
+
+		out_f = fopen(feed_file_path,"w");
+		if (!out_f){
+			zexit("open() : generated input");
+		}
+		if ((n=fwrite(data,1,size,out_f)) <size){
+			zexit("write() : generated input");
+		}
+		fclose(out_f);
 	}else{
-		modify_input("tmp_input");
+		u8 *p=data;
+		u8 *end=data+size;
+		size_t chk_sz=0;
+
+		lseek(feed_fd,0,SEEK_SET);
+
+		while(p<end){
+			if (end-p > 2048){
+				chk_sz=2048;
+			}else{
+				chk_sz=end-p;
+			}
+
+			if (write(feed_fd,p,chk_sz)!=chk_sz){
+				zexit("write");
+			}
+
+			p+=chk_sz;
+		}
+
+		if (ftruncate(feed_fd,size))
+			zexit("can't truncate current input");
+
+		lseek(feed_fd,0,SEEK_SET);
+
 	}
 
 }
@@ -5123,7 +5145,7 @@ void print_banner(){
 
 	printf(CRED"--------------------<[ ZHARF ]>------------------\n"CNORM);
 	printf(CGREEN"*\t\t\t\t\t\t*\n"CNORM);
-	printf(CGREEN"*\t\t    VERSION 1    \t\t*\n"CNORM);
+	printf(CGREEN"*\t\t   VERSION 1.1   \t\t*\n"CNORM);
 	printf(CGREEN"*\t\t\t\t\t\t*\n"CNORM);
 	printf(CGREEN"*\t\tBy Sirus Shahini\t\t*\n"CNORM);
 	printf(CGREEN"*************************************************\n\n"CNORM);
