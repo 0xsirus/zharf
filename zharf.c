@@ -5395,7 +5395,7 @@ int main(int argc,char **argv){
 		with developer-only options.
 
 	*/
-	while ((opt = getopt (argc, argv, "+i:o:n:df:mcp:gB:t:esak:ry:h")) != -1)
+	while ((opt = getopt (argc, argv, "+i:o:n:df:mcp:gB:N:T:t:esak:ry:h")) != -1)
 	switch (opt)
 	{
 		case 'd':
@@ -5493,6 +5493,10 @@ int main(int argc,char **argv){
 			zexit("User didn't provide total number of basic blocks (can be obtained from zcc)");
 		else
 			zrep("User didn't provide total number of basic blocks (can be obtained from zcc)");
+	}
+
+	if (!_st_bl && _st_indp > 0 && _st_nes >0){
+		_st_bl=_st_nes + _st_indp;
 	}
 
 	if (perf_check_req > 2 || perf_check_req < 0){
