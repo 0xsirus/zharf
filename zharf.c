@@ -172,8 +172,8 @@ char * cmt ;
 
 int attached_core;
 
-#define CRASH_MAX	4096
-u32 crash_sums[4096];
+#define CRASH_MAX	10000
+u32 crash_sums[CRASH_MAX];
 int crash_sums_index = 0;
 
 #define MAX_INTR_LOCS	1024
@@ -4037,9 +4037,9 @@ void zharf_generate(){
 
 
 #define NI_MAX_ROUNDS_INIT	(1<<(19 + BURST_P_MIN))
-#define NI_MAX_ROUNDS_MUT	(1<<(16 + BURST_P_MIN))
+#define NI_MAX_ROUNDS_MUT	(1<<(17 + BURST_P_MIN))
 
-#define NI_REF_PROB_WEIGTH	0.5
+#define NI_REF_PROB_WEIGHT	0.5
 
 #define NI_MAX_ROUNDS	((input_queue[queue_use_ind].initial) ? NI_MAX_ROUNDS_INIT : NI_MAX_ROUNDS_MUT)
 
