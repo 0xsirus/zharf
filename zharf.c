@@ -132,8 +132,9 @@ int mut_input_saved=0;
 
 char current_stat[255];
 u64 _st_bl,_st_indp,_st_nes;
-u8 brefr_freq = 20;
-u8 brefr_freq_counter=0;
+#define MAX_BREFR_FREQ 1000
+u32 brefr_freq = 20;
+u32 brefr_freq_counter=0;
 u8 zharf_init_state = 1;
 
 s8 set_8_ints[] = {_8_ints};
@@ -535,6 +536,7 @@ char *exec_speed(char *cs){
 		espeed = (u64)((total_exec-last_exec_inq)/distance_s);
 		sprintf(cs,"%lu/sec",espeed);
 		brefr_freq = espeed/10;
+		brefr_freq=brefr_freq>MAX_BREFR_FREQ?MAX_BREFR_FREQ:brefr_freq;
 		if (espeed>0){
 			if ( espeed<20){
 				zwarn("Target is running too slow");
