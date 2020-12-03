@@ -999,7 +999,7 @@ void print_usage(){
 			"\t o <path> : Output directory (Required)\n"
 			"\t f <path> : Input file to target\n"
 			"\t n <port> : TCP mode\n"
-			"\t m : Multithreaded targer\n"
+			"\t m : Multithreaded target\n"
 			"\t c : Custom cleanup\n"
 			"\t p: Pririty model (TNF, TDF, TNS)\n"
 			"\t g: Limited; initial coverage only\n"
