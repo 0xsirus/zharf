@@ -3196,13 +3196,10 @@ void mut_shrink_size(void *data,size_t size,u8 op,size_t *start,size_t *new_size
 
 void mut_mix_inputs(void *data,size_t size,u8 op,size_t *start,size_t *new_size){
 	int q_i;
-	size_t break_pos,m_break_pos,append_size;
+	size_t break_pos,m_break_pos,append_size,n,read_size;
 	FILE *mix_f;
 	struct stat st;
 	void *mdata;
-	int c;
-	u8 *p;
-
 	SIZE_LIMIT_CHECK
 	DECREASE_PROB
 
@@ -3210,10 +3207,6 @@ void mut_mix_inputs(void *data,size_t size,u8 op,size_t *start,size_t *new_size)
 	cmt = "[MUT-MIX-N]";
 	REPMUT(cmt);
 	if (queue_ind==1){
-		/*
-			This input is the only
-			input in the queue. (q_i=zero)
-		*/
 		*start = -1;
 		return;
 	}
@@ -3227,7 +3220,7 @@ mut_mix_inputs_start:
 	}
 
 	if (lstat(input_queue[q_i].i_path,&st)==-1){
-		zexit("mix_inputs: stat: %s | %d %d %d",strerror(errno),q_i,queue_ind,queue_use_ind);
+		zexit("mix_inputs: stat: %s | %d %d %d | (%s)",strerror(errno),q_i,queue_ind,queue_use_ind,input_queue[q_i].i_path);
 	}
 
 choose_offsets:
@@ -3249,15 +3242,17 @@ choose_offsets:
 		zexit("mix_inputs: fseek");
 	}
 
-	mdata = mmap(0,(st.st_size - m_break_pos), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
+	read_size=st.st_size - m_break_pos;
+	mdata = mmap(0,read_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 	if (mdata==MAP_FAILED){
 		zexit("mix_inputs: madata");
 	}
 
-	p = mdata;
-	while((c=fgetc(mix_f)) != -1){
-		*p++ = c;
+	n = fread(mdata,1,read_size,mix_f);
+	if (n!=read_size){
+		zexit("mix_inputs: fread");
 	}
+
 	fclose(mix_f);
 
 	/*
@@ -3265,20 +3260,20 @@ choose_offsets:
 		Don't overflow data in local memory
 	*/
 
-	append_size = (st.st_size - m_break_pos)   ;
-	append_size = append_size + break_pos <= MAX_INPUT_SIZE ? append_size :
-															MAX_INPUT_SIZE - break_pos;
+	append_size = read_size + break_pos <= MAX_INPUT_SIZE ? read_size : 
+							MAX_INPUT_SIZE - break_pos;
 
 
 	memcpy(data+break_pos,mdata,append_size);
 
-	*new_size = break_pos + (st.st_size - m_break_pos);
+	*new_size = break_pos + append_size;
 
 	if (munmap(mdata,st.st_size - m_break_pos)){
 		zexit("mix_inputs: munmap()");
 	}
 
 	*start=break_pos;
+
 }
 
 
