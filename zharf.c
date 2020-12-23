@@ -4202,7 +4202,9 @@ u64 tcount=0;
 									if (RU8(2))\
 										mut_dict_kw_ow(mutated_input,mutated_size,mut_op,&m_start,&m_end);\
 									else\
-										mut_dict_kw_ins(mutated_input,mutated_size,mut_op,&m_start,&m_end,&mutated_size);}
+										mut_dict_kw_ins(mutated_input,mutated_size,mut_op,&m_start,&m_end,&mutated_size);\
+									break;\
+					}
 
 		mut_op_used = mut_op;
 		switch (mut_op){
@@ -4445,23 +4447,6 @@ process_exec:
 			break;
 		}
 
-
-
-		if (m_start == -1){
-			/*
-				Ignore this mut result.
-				Either the called mut function didn't accept
-				the input or it's not useful for exec.
-			*/
-			if (mut_op>=ni_start){
-				tcount++;
-				if (tcount>10){
-					zwarn("Detected poor NI response from target");
-				}
-			}
-			continue;
-		}
-		tcount=0;
 		/*************************************************************************************
 			Fix potential problems in the generated inputs
 			Do input-based tasks in general
@@ -4485,6 +4470,23 @@ process_exec:
 		if (mutated_size < MIN_INPUT_SIZE){
 			zexit("Current mut: %d - Detected too small input: %d",mut_op,mutated_size);
 		}
+
+		if (m_start == -1){
+			/*
+				Ignore this mut result.
+				Either the called mut function didn't accept
+				the input or it's not useful for exec.
+			*/
+			if (mut_op>=ni_start){
+				tcount++;
+				if (tcount>10){
+					zwarn("Detected poor NI response from target");
+				}
+			}
+			continue;
+		}
+		tcount=0;
+
 		/*
 			Since the save_debug info will only be called while this
 			funtion's stack frame is still alive we can have debug_data
