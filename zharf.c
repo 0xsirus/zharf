@@ -602,37 +602,49 @@ char * show_data(char *buf,void *orig_data,size_t len,size_t start,size_t end){
 	u8 extra;
 	int len_limit = 128;
 	u8 pad = 0;
-	int page = (start/128);
-	void *data = orig_data + (128*page);
+	int page ;
+	void *data ;
 	u8 mut_area=0;
+	size_t orig_start,orig_end,orig_len;
 
 
-
-	len = len - 128*page;
-	if (len>len_limit) //still too much?
-		len = len_limit;
+	orig_start=start;
+	orig_end=end;
+	orig_len=len;
 
 
 	if (start==-1){
-		zexit("Borad: Wrong arg START");
-		start=0;
+		zexit("Borad: Wrong arg START <%s> ",cmt);
 	}
 
-	if (end <= start) {
-		zexit("Board: Wrong args %lu %lu <%s>",start,end,cmt);
-		start=0;
-		end = 1;
+	if (end>=len){
+		end=len-1;
 	}
 
+	if (len<=start || len<=end || end < start || (start==end && start==0)){
+		zexit("Board wrong intpus: %d,%d,%d <%s> ",start,end,len,cmt);
+	}
+
+	if (start==end){
+		start--;
+	}
+
+	page=(start/len_limit);
+	data = orig_data + (128*page);
+
+	len = len - 128*page;
+
+	if (len>len_limit)
+		len = len_limit;
 
 	if (start >= len_limit) start = start % len_limit;
 	if (end >= len_limit) end = end % len_limit;
 
-
 	if (len<=(len_limit-16)) pad=1;
 
-	if (start >= len){
-		zexit("Board: args overflow page offset %d %d %d",start,end,len);
+	if (start >= len || end>=len){
+		zexit("Board: args overflow page offset %d,%d,%d %d,%d,%d <%s> ",start,end,len,
+								orig_start,orig_end,orig_len,cmt);
 	}
 
 #define APPEND 	psect(tmp,78+extra,line);\
@@ -2878,6 +2890,13 @@ u8 iter_intr_locs(void *data,size_t size,u8 op,size_t *start,struct inp_intr_loc
 		return op+1;
 	}
 
+	if (intr_indx==0){
+		if (cur->intr_locs[intr_indx] >= size){
+			*start=-1;
+			return op+1;
+		}
+	}
+
 	if (!intr_indx){
 		cmt = "[MUT-ITER-INTR-LOCS]";
 		REPMUT(cmt);
@@ -3544,11 +3563,6 @@ void mut_intr_locs(void *data,size_t size,u8 op,size_t *start,struct inp_intr_lo
 		return;
 	}
 
-
-
-	cmt = "[MUT-INTR-LOCS]";
-	REPMUT(cmt);
-
 	/*
 		Since intr_locs is inherited
 		we should check not to go beyond
@@ -3560,6 +3574,14 @@ void mut_intr_locs(void *data,size_t size,u8 op,size_t *start,struct inp_intr_lo
 			break;
 		}
 	}
+
+	if (i_indx==0){
+		*start=-1;
+		return;
+	}
+
+	cmt = "[MUT-INTR-LOCS]";
+	REPMUT(cmt);
 
 	/*
 		Set to random value for log(i_indx) times
