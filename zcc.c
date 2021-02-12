@@ -559,6 +559,7 @@ int main(int argc, char** argv) {
 	char lzh_arg[1064];
 	struct timespec stime;
 	u8 req_operation = 0;
+	char *r_s;
 
 	/*
 		We consider the simplest case for now.
@@ -569,6 +570,10 @@ int main(int argc, char** argv) {
 
 	if (argc<2){
 		zexit("Wrong arguments");
+	}
+
+	if ((r_s=getenv("ZCC_RATIO"))){
+		sscanf(r_s,"%f",&instrumentation_ratio);
 	}
 
 	if (instrumentation_ratio > 1){
