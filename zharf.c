@@ -33,7 +33,7 @@ void *shm_adr=0;
 void *shm_end;
 int starter_id;
 
-char CURRENT_INPUT[] = "current_input";
+char CURRENT_INPUT[] = ".current_input";
 char TMP_INPUT[] = "tmp_input";
 
 #define MAX_INPUT_SIZE		(1<<15)	//32KB
@@ -367,7 +367,7 @@ void terminate_units(){
 	/*
 		All file cleanups here
 	*/
-	//unlink(CURRENT_INPUT);
+	unlink(CURRENT_INPUT);
 	printf(SC);
 }
 char *convert_time(char *ts){
