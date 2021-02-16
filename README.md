@@ -1,4 +1,7 @@
 # ZHARF fuzzer
+
+### (This work is currently under development and submission)
+
 <img src="https://www.cs.utah.edu/~sirus/zharf.gif" />
 
 Compilation and usage of the fuzzer is pretty straightforward. To compile Zharf,
@@ -46,3 +49,22 @@ $ zharf -h
 ```
 <img src="https://www.cs.utah.edu/~sirus/zharf-1.1.png" />
 
+### Some notes about fuzzing speed
+Zharf performs dynamic graph analysis which is computationally costly. The speed
+of fuzzing can be drastically affected by the size of the program under fuzz. If
+the reported speed by the fuzzer is less that 50 iterations per second, you
+must decrease the instrumentation ratio by passing "ZCC\_RATIO" environmental
+variable to `zcc` for compiling the program you want to fuzz. This variable defines
+to what extend the program should be instrumented. The more aggressively the
+program is instrumented, the more trace information Zharf has to analyze
+the program but at the same time the slower the fuzzing will be. By default this
+ratio is 1 which is the maximum ratio. Passing values less than one will
+increase speed and decrease the analysis accuracy. But for big programs, the
+speed gain well overweights the prevision loss. If you want to use this
+variable, it's recommended to pass a value between 0.2 and 0.8 based on the
+speed change that you observe in the fuzzer board.
+
+Example: Compiling a program and passing 80% for `ZCC\_RATIO':
+```
+ZCC_RATIO=0.8 zcc -o program.elf program.c
+```
