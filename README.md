@@ -60,7 +60,7 @@ program is instrumented, the more trace information Zharf has to analyze
 the program but at the same time the slower the fuzzing will be. By default this
 ratio is 1 which is the maximum ratio. Passing values less than one will
 increase speed and decrease the analysis accuracy. But for big programs, the
-speed gain well overweights the prevision loss. If you want to use this
+speed gain well overweights the precision loss. If you want to use this
 variable, it's recommended to pass a value between 0.2 and 0.8 based on the
 speed change that you observe in the fuzzer board.
 
