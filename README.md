@@ -52,7 +52,7 @@ $ zharf -h
 ### Some notes about fuzzing speed
 Zharf performs dynamic graph analysis which is computationally costly. The speed
 of fuzzing can be drastically affected by the size of the program under fuzz. If
-the reported speed by the fuzzer is less that 50 iterations per second, you must
+the reported speed by the fuzzer is less than 50 iterations per second, you must
 decrease the instrumentation ratio by passing "ZCC\_RATIO" environmental
 variable to `zcc` for compiling the program you want to fuzz. This variable
 defines to what extend the program should be instrumented. The more aggressively
