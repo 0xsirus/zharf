@@ -999,7 +999,7 @@ void refresh_board(void *data,size_t size,size_t start,size_t end){
 	printf(DStart LCU _64HO _14HO RCU DStop "\n" );
 	printf(DStop);
 
-	printf("\n\n");
+	//printf("\n\n");
 
 
 }
@@ -5394,8 +5394,8 @@ int main(int argc,char **argv){
 	FILE *frep;
 	char _sname[1024];
 #endif
-    struct sigaction sig_act;
-
+	struct sigaction sig_act;
+	struct winsize win_s;
 
 	_st_bl=0;
 	_st_indp=0;
@@ -5408,6 +5408,16 @@ int main(int argc,char **argv){
 	queue_ind = 0;
 	queue_use_ind = -1;
 	opterr = 0; // getopt won't show error msg, we handle errors
+
+	if (!ioctl(0,TIOCGWINSZ,&win_s)){
+		if (win_s.ws_row && win_s.ws_col){
+			if (win_s.ws_row < 37 || win_s.ws_col<80){
+				zexit("Your terminal window doesn't have enough space for output.\n"
+					"\t    Either resize the terminal window or decrease your font size.");
+			}
+		}
+	}
+
 	/*
 		Short options suffice for our case
 		hence getopt instead of getopt_long

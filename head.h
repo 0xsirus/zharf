@@ -37,7 +37,7 @@
 #include <netinet/in.h>
 #include <execinfo.h>
 #include <sched.h>
-
+#include <sys/ioctl.h>
 
 #define u8 				uint8_t
 #define u16 				uint16_t
