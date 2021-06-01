@@ -559,7 +559,7 @@ int main(int argc, char** argv) {
 	char lzh_arg[1064];
 	struct timespec stime;
 	u8 req_operation = 0;
-	char *r_s;
+	char *r_s,*arg_p;
 
 	/*
 		We consider the simplest case for now.
@@ -590,16 +590,20 @@ int main(int argc, char** argv) {
 	//getcwd(zharf_dir,MAX_PATH);
 	strcpy(zharf_dir,argv[0]);
 	strcpy(zharf_dir , dirname(zharf_dir));
-	if (strstr(argv[0],"zcc")){
+	if ((arg_p=strstr(argv[0],"zcc")) || (arg_p=strstr(argv[0],"z++"))){
 		/*
 			Compile
 		*/
+		char exe_compiler[4];
+
 		if(bridge_log)
 			zrep("Stage 1; compiling \n");
 		if (getenv("BRG_NOOPT"))
 			add_optimization=0;
 
-	  	argv_bridge[ar_index++] = "gcc";
+		strcpy(exe_compiler,arg_p);
+		exe_compiler[0]='g';
+		argv_bridge[ar_index++] = exe_compiler;
 	  	for (i=1;i<argc;i++){
 			argv_bridge[ar_index++] = argv[i];
 		}
