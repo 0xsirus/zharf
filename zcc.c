@@ -569,7 +569,7 @@ int main(int argc, char** argv) {
 	*/
 
 	if (argc<2){
-		zexit("Wrong arguments");
+		zexit("Missing arguments");
 	}
 
 	if ((r_s=getenv("ZCC_RATIO"))){
@@ -595,6 +595,9 @@ int main(int argc, char** argv) {
 			Compile
 		*/
 		char exe_compiler[4];
+
+		if (strlen(arg_p)!=3)
+			zexit("Invalid command.");
 
 		if(bridge_log)
 			zrep("Stage 1; compiling \n");
@@ -677,7 +680,7 @@ int main(int argc, char** argv) {
 		}
 
 	}else{
-		zexit("Unknown state");
+		zexit("Invalid command.");
 	}
 
   	if (bridge_log)
