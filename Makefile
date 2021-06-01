@@ -17,6 +17,6 @@ install:
 	cp zharf /usr/bin
 	cp zcc /usr/bin
 	ln -s zcc as
-	ln -s z++ as
+	ln -s zcc z++
 	mkdir /usr/local/zharf_helper
 	ln -s /usr/bin/zcc /usr/local/zharf_helper/as
