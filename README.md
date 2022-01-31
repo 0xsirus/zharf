@@ -1,7 +1,5 @@
 # ZHARF fuzzer
 
-### (This work is currently under development and submission)
-
 <img src="https://www.cs.utah.edu/~sirus/zharf.gif" />
 
 Compilation and usage of the fuzzer is pretty straightforward. To compile Zharf,
