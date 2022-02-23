@@ -1,9 +1,9 @@
 all:
-	gcc -Wall -Wno-varargs -fPIC -shared -O3 -o libzh.so libzh.c
+	gcc -Wall -Wno-varargs -fPIC -shared -Wno-unused-result -O3 -o libzh.so libzh.c
 	gcc -Wno-varargs -Wall -ozcc zcc.c
 	gcc -Wall -Wno-varargs -Wno-unused-result -ozharf -rdynamic -O3 hash.c zharf.c
 lib:
-	gcc -Wall -Wno-varargs -fPIC -shared -O3 -olibzh.so libzh.c
+	gcc -Wall -Wno-varargs -fPIC -shared -Wno-unused-result -O3 -olibzh.so libzh.c
 zcc:
 	gcc -Wall -ozcc zcc.c
 zharf:
