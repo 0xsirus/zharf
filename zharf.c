@@ -5682,13 +5682,13 @@ int main(int argc,char **argv){
 		strcpy(current_stat,CGREEN"NORMAL"CNORM);
 
 	fgov=fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","r");
-	if (!fgov)
-		zexit("fopen(): CPU governer core 0");
-	fgets(gbuf,12,fgov);
-	if (strcmp(gbuf,"performance"))
-		zwarn("Fuzzer works better in 'performance' mode of CPUFreq governor.");
-	clear_warn();
-	fclose(fgov);
+	if (fgov){
+		fgets(gbuf,12,fgov);
+		if (strcmp(gbuf,"performance"))
+			zwarn("Fuzzer works better in 'performance' mode of CPUFreq governor.");
+		clear_warn();
+		fclose(fgov);
+	}
 
 /************ PM modes initializations here ****************/
 
