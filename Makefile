@@ -20,3 +20,4 @@ install:
 	ln -s zcc z++
 	mkdir /usr/local/zharf_helper
 	ln -s /usr/bin/zcc /usr/local/zharf_helper/as
+	ln -s /usr/bin/zcc /usr/bin/z++

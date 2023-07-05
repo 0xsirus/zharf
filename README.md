@@ -66,3 +66,10 @@ Example: Compiling a program and passing 80% for `ZCC\_RATIO':
 ```
 ZCC_RATIO=0.8 zcc -o program.elf program.c
 ```
+
+## Other Projects
+
+We have built Arvin[1] on top of this framework. ZHARF stays our standard framework for building 
+greybox fuzzers using dynamic control flow analysis.
+
+\[1] [https://github.com/0xsirus/arvin](https://github.com/0xsirus/arvin)
